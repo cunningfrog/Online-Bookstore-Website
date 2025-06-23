@@ -1,0 +1,115 @@
+body {
+    background-color: hsl(265, 33%, 43%);
+    /* Keep all other existing body properties */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 20px;
+    color: #333;
+}
+
+.container {
+    background-color: white; /* or use a light color like hsl(0, 0%, 95%) */
+    /* Keep all other existing container properties */
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 30px;
+}
+
+/* Search Section */
+.search-container {
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
+}
+
+#search-input {
+    padding: 10px 15px;
+    width: 60%;
+    border: 1px solid #ddd;
+    border-radius: 4px 0 0 4px;
+    font-size: 16px;
+}
+
+#search-button {
+    padding: 10px 20px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#search-button:hover {
+    background-color: #2980b9;
+}
+
+/* Books Grid */
+.books-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.book-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    transition: transform 0.3s ease;
+    background-color: white;
+}
+
+.book-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.book-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #2c3e50;
+}
+
+.book-author {
+    color: #7f8c8d;
+    margin-bottom: 10px;
+}
+
+.book-details {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #555;
+}
+
+.no-results {
+    text-align: center;
+    grid-column: 1 / -1;
+    padding: 20px;
+    color: #7f8c8d;
+}
+/* Update button color to match */
+#search-button {
+    background-color: hsl(265, 33%, 43%);
+    /* Keep other button styles */
+}
+
+/* Update hover state */
+#search-button:hover {
+    background-color: hsl(265, 33%, 35%);
+}
+
+/* Update book title color */
+.book-title {
+    color: hsl(265, 33%, 43%);
+    /* Keep other title styles */
+}

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Catalog</title>
+    <style>
+        /* CSS Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: hsl(265, 33%, 43%);
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            color: hsl(265, 33%, 43%);
+            margin-bottom: 30px;
+        }
+        
+        .search-container {
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: center;
+        }
+        
+        #search-input {
+            padding: 10px 15px;
+            width: 60%;
+            border: 1px solid #ddd;
+            border-radius: 4px 0 0 4px;
+            font-size: 16px;
+        }
+        
+        #search-button {
+            padding: 10px 20px;
+            background-color: hsl(265, 33%, 43%);
+            color: white;
+            border: none;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        #search-button:hover {
+            background-color: hsl(265, 33%, 35%);
+        }
+        
+        .books-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .book-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            transition: transform 0.3s ease;
+            background-color: white;
+        }
+        
+        .book-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .book-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: hsl(265, 33%, 43%);
+        }
+        
+        .book-author {
+            color: #7f8c8d;
+            margin-bottom: 10px;
+        }
+        
+        .book-details {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #555;
+        }
+        
+        .no-results {
+            text-align: center;
+            grid-column: 1 / -1;
+            padding: 20px;
+            color: #7f8c8d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Book Catalog</h1>
+        
+        <div class="search-container">
+            <input type="text" id="search-input" placeholder="Search by book title...">
+            <button id="search-button">Search</button>
+        </div>
+        
+        <div class="books-container" id="books-container">
+            <!-- Books will be inserted here by JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        // Sample book data
+        const books = [
+            {
+                title: "To Kill a Mockingbird",
+                author: "Harper Lee",
+                year: 1960,
+                genre: "Fiction",
+                description: "A story of racial injustice and the destruction of innocence in the American South."
+            },
+            {
+                title: "1984",
+                author: "George Orwell",
+                year: 1949,
+                genre: "Dystopian",
+                description: "A dystopian novel about totalitarianism and government surveillance."
+            },
+            {
+                title: "The Great Gatsby",
+                author: "F. Scott Fitzgerald",
+                year: 1925,
+                genre: "Classic",
+                description: "A portrait of the Jazz Age in all of its decadence and excess."
+            },
+            {
+                title: "Pride and Prejudice",
+                author: "Jane Austen",
+                year: 1813,
+                genre: "Romance",
+                description: "A romantic novel about the emotional development of Elizabeth Bennet."
+            },
+            {
+                title: "The Hobbit",
+                author: "J.R.R. Tolkien",
+                year: 1937,
+                genre: "Fantasy",
+                description: "A fantasy novel about the quest of home-loving Bilbo Baggins."
+            },
+            {
+                title: "The Catcher in the Rye",
+                author: "J.D. Salinger",
+                year: 1951,
+                genre: "Coming-of-age",
+                description: "A story about teenage alienation and rebellion."
+            },
+            {
+                title: "The Alchemist",
+                author: "Paulo Coelho",
+                year: 1988,
+                genre: "Fantasy Fiction",
+                description: "A shepherd boy's journey to find worldly treasure leads him to discover something far more valuable."
+            },
+            {
+                title: "Atomic Habits",
+                author: "James Clear",
+                year: 2018,
+                genre: "Self-help",
+                description: "A guide to building good habits and breaking bad ones through tiny changes."
+            },
+            {
+                title: "Sapiens",
+                author: "Yuval Noah Harari",
+                year: 2011,
+                genre: "History",
+                description: "A brief history of humankind, exploring how we came to dominate the Earth."
+            },
+            {
+                title: "Dune",
+                author: "Frank Herbert",
+                year: 1965,
+                genre: "Science Fiction",
+                description: "A epic tale of politics, religion, and power on the desert planet Arrakis."
+            },
+            {
+                title: "The Silent Patient",
+                author: "Alex Michaelides",
+                year: 2019,
+                genre: "Psychological Thriller",
+                description: "A woman shoots her husband and then stops speaking, leaving a criminal psychotherapist to unravel the mystery."
+            }
+        ];
+
+        // DOM elements
+        const booksContainer = document.getElementById('books-container');
+        const searchInput = document.getElementById('search-input');
+        const searchButton = document.getElementById('search-button');
+
+        // Display all books initially
+        displayBooks(books);
+
+        // Search functionality
+        searchButton.addEventListener('click', searchBooks);
+        searchInput.addEventListener('keyup', function(event) {
+            if (event.key === 'Enter') {
+                searchBooks();
+            }
+        });
+
+        // Function to display books
+        function displayBooks(booksToDisplay) {
+            booksContainer.innerHTML = '';
+            
+            if (booksToDisplay.length === 0) {
+                booksContainer.innerHTML = '<div class="no-results">No books found matching your search.</div>';
+                return;
+            }
+            
+            booksToDisplay.forEach(book => {
+                const bookCard = document.createElement('div');
+                bookCard.className = 'book-card';
+                
+                bookCard.innerHTML = `
+                    <div class="book-title">${book.title}</div>
+                    <div class="book-author">by ${book.author}</div>
+                    <div class="book-details">
+                        <div><strong>Year:</strong> ${book.year}</div>
+                        <div><strong>Genre:</strong> ${book.genre}</div>
+                        <div><strong>Description:</strong> ${book.description}</div>
+                    </div>
+                `;
+                
+                booksContainer.appendChild(bookCard);
+            });
+        }
+
+        // Function to search books
+        function searchBooks() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const filteredBooks = books.filter(book => 
+                book.title.toLowerCase().includes(searchTerm) || 
+                book.author.toLowerCase().includes(searchTerm)
+            );
+            displayBooks(filteredBooks);
+        }
+    </script>
+</body>
+</html>
