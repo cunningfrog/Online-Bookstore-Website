@@ -1,8 +1,6 @@
 # Online Bookstore Website
 A responsive online bookstore built with HTML, CSS, and JavaScript.
 
-(Add a screenshot later if possible)
-
 # Features
 Browse Books – View a collection of available books.
 
